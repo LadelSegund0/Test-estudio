@@ -29,6 +29,7 @@ const quizSchema = {
 };
 
 export async function generateQuiz(context: string, numQuestions: number, difficulty: string): Promise<Question[]> {
+  // Fix: Per coding guidelines, API key must be retrieved from process.env.API_KEY.
   const apiKey = process.env.API_KEY;
   if (!apiKey) {
     throw new Error("La clave de API de Google Gemini no está configurada en el entorno de la aplicación.");
@@ -80,6 +81,7 @@ export async function generateQuiz(context: string, numQuestions: number, diffic
     return quizData;
   } catch (error) {
     console.error("Error calling Gemini API:", error);
+    // Fix: Updated error message to not reference user configuration like .env files.
     if (error instanceof Error && error.message.includes('API key not valid')) {
        throw new Error("La clave de API de Google Gemini configurada no es válida. Por favor, contacta al administrador de la aplicación.");
     }

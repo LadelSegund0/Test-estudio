@@ -1,5 +1,8 @@
 import React, { useState, useCallback } from 'react';
-import * as pdfjsLib from 'pdfjs-dist/build/pdf';
+import * as pdfjsLib from 'pdfjs-dist';
+// Importa la URL del worker para que Vite lo gestione
+import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.min.js?url';
+
 import FileUpload from './components/FileUpload';
 import QuizConfig from './components/QuizConfig';
 import Quiz from './components/Quiz';
@@ -8,8 +11,8 @@ import Loader from './components/Loader';
 import { generateQuiz } from './services/geminiService';
 import { AppState, QuizConfig as QuizConfigType, Question } from './types';
 
-// Set up the PDF.js worker to match the version from the import map
-pdfjsLib.GlobalWorkerOptions.workerSrc = `https://aistudiocdn.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.js`;
+// Configura el worker de PDF.js usando la URL importada
+pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
 export default function App() {
   const [appState, setAppState] = useState<AppState>(AppState.FILE_UPLOAD);
@@ -32,7 +35,6 @@ export default function App() {
       let fullText = '';
       for (const file of Array.from(files)) {
         const arrayBuffer = await file.arrayBuffer();
-        // Convert ArrayBuffer to Uint8Array for better compatibility with pdf.js
         const typedArray = new Uint8Array(arrayBuffer);
         const pdf = await pdfjsLib.getDocument(typedArray).promise;
         const numPages = pdf.numPages;
