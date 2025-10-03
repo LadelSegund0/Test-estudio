@@ -1,0 +1,5 @@
+{
+  "name": "Ladel's test. Empower your Mind.",
+  "description": "Empower your mind by turning any PDF document into an interactive quiz. Upload your files, and Ladel's Test will use the Gemini API to generate challenging questions, helping you master any subject.",
+  "requestFramePermissions": []
+}
